@@ -8,7 +8,7 @@
 		const vm = this;
 
 		vm.$onInit = () => {
-
+			vm.text = "hi there";
 		};
 
 	});

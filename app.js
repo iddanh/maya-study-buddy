@@ -8,4 +8,5 @@ app.use(express.static('app'));
 
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'));
+const port = process.env.PORT || 80;
+app.listen(port, () => console.log('listening on port 3000!'));
