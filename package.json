@@ -1,0 +1,15 @@
+{
+  "name": "maya-study-buddy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Iddan",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.6.9",
+    "express": "^4.16.2"
+  }
+}
