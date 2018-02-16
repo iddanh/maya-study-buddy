@@ -3,13 +3,21 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Maya Study Buddy</title>
+
+	<link rel="stylesheet" href="/style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body ng-controller="mainController as vm">
-<button class="upload-btn" ng-click="vm.uploadImages()">Upload images</button>
-<button class="next" ng-click="vm.nextImage()">Next image</button>
-<div ng-click="vm.showName = !vm.showName">
-	<img src="{{vm.image.secure_url}}"/>
-	<p ng-show="vm.showName">{{vm.image.public_id}}</p>
+<div class="wrapper">
+	<div class="container">
+		<button class="btn btn-primary upload-btn" ng-click="vm.uploadImages()">Upload images</button>
+		<button class="btn btn-success next" ng-click="vm.nextImage()">Next image</button>
+		<div ng-click="vm.showName = !vm.showName">
+			<img class="img-fluid img-thumbnail" src="{{vm.image.secure_url}}"/>
+			<p ng-show="vm.showName">{{vm.image.public_id}}</p>
+		</div>
+	</div>
 </div>
 </body>
 

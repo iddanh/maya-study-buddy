@@ -1,0 +1,18 @@
+html,
+body {
+	height: 100%;
+}
+
+.wrapper {
+	background-color: whitesmoke;
+	height: 100%;
+}
+
+.container {
+	background-color: white;
+	text-align: center;
+}
+
+[ng-click] {
+	cursor: pointer;
+}

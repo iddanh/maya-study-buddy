@@ -25,7 +25,7 @@
 					upload_preset: 'tkru709v'
 				},
 				(error, result) => {
-					console.log(error, result)
+					location.reload();
 				}
 			);
 		}
