@@ -14,7 +14,7 @@ cloudinary.config({
 });
 
 app.get('/images', (req, res) => {
-	cloudinary.api.resources(function (result) {
+	cloudinary.v2.api.resources({max_results: 500}, function (error, result) {
 		res.json(result);
 	});
 });
