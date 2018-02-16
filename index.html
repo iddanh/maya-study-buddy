@@ -18,14 +18,17 @@
 		<button class="btn btn-outline-primary upload-btn" ng-click="vm.uploadImages()">Upload more!</button>
 	</nav>
 
+
 	<div class="image-wrapper">
 		<div class="image-container" ng-click="vm.imageClick()">
 			<img src="{{vm.image.secure_url}}"/>
-			<div class="overlay" ng-show="vm.showName"></div>
-			<p class="img-name" ng-show="vm.showName">{{vm.image.public_id | underscoreless}}</p>
 		</div>
 	</div>
 
+	<div ng-click="vm.imageClick()">
+		<div class="overlay" ng-show="vm.showName"></div>
+		<p class="img-name" ng-show="vm.showName">{{vm.image.public_id | underscoreless}}</p>
+	</div>
 	<footer>
 		Mayacool &copy; 2018
 	</footer>
