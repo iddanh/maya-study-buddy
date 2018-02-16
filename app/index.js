@@ -12,21 +12,20 @@
 		}
 	});
 
-	app.controller('mainController', function ($http) {
+	app.controller('mainController', function ($http, $filter) {
 
 		const vm = this;
 
 		vm.$onInit = () => {
 			vm.uploadImages = uploadImages;
 			vm.imageClick = imageClick;
+			vm.overlayClick = overlayClick;
+			vm.startOverClick = startOverClick;
 
-			vm.showName = false;
+			vm.showOverlay = false;
+			vm.gameOver = false;
 
-			$http.get('/images')
-				.then((res) => {
-					vm.images = res.data.resources;
-					nextImage();
-				});
+			getImages();
 		};
 
 		function uploadImages() {
@@ -41,17 +40,44 @@
 		}
 
 		function imageClick() {
-			if (!vm.showName) {
-				vm.showName = true;
+			vm.showOverlay = true;
+		}
+
+		function overlayClick() {
+			if (vm.gameOver) {
 				return;
 			}
-			vm.showName = false;
-			nextImage();
+			if (nextImage()) {
+				vm.gameOver = true;
+				vm.overlayText = "All done!"
+			} else {
+				vm.showOverlay = false;
+			}
+		}
+
+		function startOverClick() {
+			vm.gameOver = false;
+			vm.showOverlay = false;
+			getImages();
 		}
 
 		function nextImage() {
+			if (vm.images.length === 0) {
+				return true;
+			}
+
 			let index = Math.floor(Math.random() * vm.images.length);
 			vm.image = vm.images[index];
+			vm.overlayText = $filter('underscoreless')(vm.image.public_id);
+			vm.images.splice(index, 1);
+		}
+
+		function getImages() {
+			$http.get('/images')
+				.then((res) => {
+					vm.images = res.data.resources;
+					nextImage();
+				});
 		}
 
 	});

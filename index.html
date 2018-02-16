@@ -16,16 +16,45 @@
 		window['_fs_host'] = 'fullstory.com';
 		window['_fs_org'] = '6C5FB';
 		window['_fs_namespace'] = 'FS';
-		(function(m,n,e,t,l,o,g,y){
-			if (e in m) {if(m.console && m.console.log) { m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].');} return;}
-			g=m[e]=function(a,b){g.q?g.q.push([a,b]):g._api(a,b);};g.q=[];
-			o=n.createElement(t);o.async=1;o.src='https://'+_fs_host+'/s/fs.js';
-			y=n.getElementsByTagName(t)[0];y.parentNode.insertBefore(o,y);
-			g.identify=function(i,v){g(l,{uid:i});if(v)g(l,v)};g.setUserVars=function(v){g(l,v)};
-			y="rec";g.shutdown=function(i,v){g(y,!1)};g.restart=function(i,v){g(y,!0)};
-			g.identifyAccount=function(i,v){o='account';v=v||{};v.acctId=i;g(o,v)};
-			g.clearUserCookie=function(){};
-		})(window,document,window['_fs_namespace'],'script','user');
+		(function (m, n, e, t, l, o, g, y) {
+			if (e in m) {
+				if (m.console && m.console.log) {
+					m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].');
+				}
+				return;
+			}
+			g = m[e] = function (a, b) {
+				g.q ? g.q.push([a, b]) : g._api(a, b);
+			};
+			g.q = [];
+			o = n.createElement(t);
+			o.async = 1;
+			o.src = 'https://' + _fs_host + '/s/fs.js';
+			y = n.getElementsByTagName(t)[0];
+			y.parentNode.insertBefore(o, y);
+			g.identify = function (i, v) {
+				g(l, {uid: i});
+				if (v) g(l, v)
+			};
+			g.setUserVars = function (v) {
+				g(l, v)
+			};
+			y = "rec";
+			g.shutdown = function (i, v) {
+				g(y, !1)
+			};
+			g.restart = function (i, v) {
+				g(y, !0)
+			};
+			g.identifyAccount = function (i, v) {
+				o = 'account';
+				v = v || {};
+				v.acctId = i;
+				g(o, v)
+			};
+			g.clearUserCookie = function () {
+			};
+		})(window, document, window['_fs_namespace'], 'script', 'user');
 	</script>
 </head>
 <body ng-controller="mainController as vm">
@@ -35,16 +64,18 @@
 		<button class="btn btn-outline-primary upload-btn" ng-click="vm.uploadImages()">Upload more!</button>
 	</nav>
 
+	<p class="remaining">Remaining: <b>{{vm.images.length}}</b></p>
 
-	<div class="image-wrapper">
-		<div class="image-container" ng-click="vm.imageClick()">
-			<img src="{{vm.image.secure_url}}"/>
-		</div>
+	<div class="image-wrapper" ng-click="vm.imageClick()">
+		<img src="{{vm.image.secure_url}}"/>
 	</div>
 
-	<div ng-click="vm.imageClick()">
-		<div class="overlay" ng-show="vm.showName"></div>
-		<p class="img-name" ng-show="vm.showName">{{vm.image.public_id | underscoreless}}</p>
+	<div ng-if="vm.showOverlay" ng-click="vm.overlayClick()">
+		<div class="overlay"></div>
+		<div class="overlay-text-wrapper">
+			<p class="overlay-text">{{vm.overlayText}}</p>
+			<button class="btn btn-lg btn-outline-light" ng-if="vm.gameOver" ng-click="vm.startOverClick()">Start over</button>
+		</div>
 	</div>
 	<footer>
 		Mayacool &copy; 2018

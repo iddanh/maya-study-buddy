@@ -22,14 +22,15 @@ body {
 	transform: translate(-50%, -50%);
 	top: calc(50% + 28px);
 	left: 50%;
-}
-
-.image-container {
 	display: inline-block;
 	text-align: center;
-	position: relative;
 	background-color: white;
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.remaining {
+	text-align: center;
+	font-family: 'Varela Round', sans-serif;
 }
 
 img {
@@ -47,15 +48,18 @@ img {
 	opacity: .8;
 }
 
-.img-name {
+.overlay-text-wrapper {
 	position: absolute;
 	width: 80%;
 	top: 50%;
 	left: 10%;
 	transform: translateY(-50%);
+	text-align: center;
+}
+
+.overlay-text {
 	color: white;
 	font-weight: bold;
-	text-align: center;
 	font-size: 40px;
 	font-family: 'Varela Round', sans-serif;
 }
