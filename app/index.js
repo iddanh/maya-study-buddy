@@ -3,13 +3,38 @@
 
 	const app = angular.module('app', []);
 
-	app.controller('mainController', function () {
+	app.controller('mainController', function ($http) {
 
 		const vm = this;
 
 		vm.$onInit = () => {
-			vm.text = "hi there";
+			vm.uploadImages = uploadImages;
+			vm.nextImage = nextImage;
+
+			vm.showName = false;
+
+			$http.get('/images')
+				.then((res) => {
+					vm.images = res.data.resources;
+				});
 		};
+
+		function uploadImages() {
+			cloudinary.openUploadWidget({
+					cloud_name: 'hdzc7seee',
+					upload_preset: 'tkru709v'
+				},
+				(error, result) => {
+					console.log(error, result)
+				}
+			);
+		}
+
+		function nextImage() {
+			vm.showName = false;
+			let index = Math.floor(Math.random() * vm.images.length);
+			vm.image = vm.images[index];
+		}
 
 	});
 

@@ -9,7 +9,7 @@
   "author": "Iddan",
   "license": "ISC",
   "dependencies": {
-    "angular": "^1.6.9",
+    "cloudinary": "^1.10.0",
     "express": "^4.16.2"
   }
 }
