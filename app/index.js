@@ -1,7 +1,12 @@
 (function () {
 	'use strict';
 
-	const app = angular.module('app', []);
+	const app = angular.module('app', ['cloudinary']);
+
+	app.config(function (cloudinaryProvider) {
+		cloudinaryProvider
+			.set("cloud_name", "hdzc7seee");
+	});
 
 	app.filter('underscoreless', function () {
 		return function (input) {

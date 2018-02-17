@@ -1,0 +1,64 @@
+{
+  "_from": "cloudinary_ng",
+  "_id": "cloudinary_ng@1.1.1",
+  "_inBundle": false,
+  "_integrity": "sha512-OkNPp06idONo9yFL9EXIeI1mxOj3N7JawUsRGfpsvCyesyf9Vj918Z6kc9jQIH66gsFNJtPTwU0XWv8Q6HkylA==",
+  "_location": "/cloudinary_ng",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cloudinary_ng",
+    "name": "cloudinary_ng",
+    "escapedName": "cloudinary_ng",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cloudinary_ng/-/cloudinary_ng-1.1.1.tgz",
+  "_shasum": "fc96d553cd36d4a0c7f9ef391dfa4c8925356210",
+  "_spec": "cloudinary_ng",
+  "_where": "C:\\Users\\Iddan\\WebstormProjects\\maya-study-buddy",
+  "author": {
+    "name": "Cloudinary"
+  },
+  "bugs": {
+    "url": "https://github.com/cloudinary/cloudinary_angular/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "A set of AngularJS directives/helpers for using Cloudinary with AngularJS",
+  "devDependencies": {
+    "coffee-script": "~1.10",
+    "grunt": "~0.4",
+    "grunt-karma": "~0.12",
+    "grunt-version": "~1.0",
+    "jasmine-core": "~2.4",
+    "karma": "~0.13",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-coverage": "~0.5",
+    "karma-jasmine": "~0.3",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "karma-story-reporter": "~0.3",
+    "phantomjs-prebuilt": "~2.1"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "homepage": "https://github.com/cloudinary/cloudinary_angular",
+  "license": "MIT",
+  "main": "js/angular.cloudinary.js",
+  "name": "cloudinary_ng",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cloudinary/cloudinary_angular.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.1.1"
+}

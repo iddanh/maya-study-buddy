@@ -67,14 +67,24 @@
 	<p class="remaining">Remaining: <b>{{vm.images.length}}</b></p>
 
 	<div class="image-wrapper" ng-click="vm.imageClick()">
-		<img src="{{vm.image.secure_url}}"/>
+		<cl-image public-id="{{vm.image.public_id}}">
+			<cl-transformation
+					dpr="auto"
+					responsive
+					width="auto"
+					fetch_format="auto"
+					crop="scale"
+					quality="auto">
+			</cl-transformation>
+		</cl-image>
 	</div>
 
 	<div ng-if="vm.showOverlay" ng-click="vm.overlayClick()">
 		<div class="overlay"></div>
 		<div class="overlay-text-wrapper">
 			<p class="overlay-text">{{vm.overlayText}}</p>
-			<button class="btn btn-lg btn-outline-light" ng-if="vm.gameOver" ng-click="vm.startOverClick()">Start over</button>
+			<button class="btn btn-lg btn-outline-light" ng-if="vm.gameOver" ng-click="vm.startOverClick()">Start over
+			</button>
 		</div>
 	</div>
 	<footer>
@@ -85,5 +95,7 @@
 
 <script src="//widget.cloudinary.com/global/all.js" type="text/javascript"></script>
 <script src="/scripts/angular/angular.min.js" type="text/javascript"></script>
+<script src="/scripts/cloudinary-core/cloudinary-core-shrinkwrap.js"></script>
+<script src="/scripts/cloudinary_ng/js/angular.cloudinary.js"></script>
 <script src="/index.js" type="text/javascript"></script>
 </html>
