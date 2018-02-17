@@ -24,11 +24,12 @@
 		vm.$onInit = () => {
 			vm.uploadImages = uploadImages;
 			vm.imageClick = imageClick;
-			vm.overlayClick = overlayClick;
+			vm.nextQuestion = nextQuestion;
 			vm.startOverClick = startOverClick;
 
 			vm.showOverlay = false;
 			vm.gameOver = false;
+			vm.index = 0;
 
 			getImages();
 		};
@@ -48,13 +49,12 @@
 			vm.showOverlay = true;
 		}
 
-		function overlayClick() {
+		function nextQuestion(removeImage) {
 			if (vm.gameOver) {
 				return;
 			}
-			if (nextImage()) {
+			if (nextImage(removeImage)) {
 				vm.gameOver = true;
-				vm.overlayText = "All done!"
 			} else {
 				vm.showOverlay = false;
 			}
@@ -66,15 +66,18 @@
 			getImages();
 		}
 
-		function nextImage() {
+		function nextImage(removeLast) {
+			if (removeLast) {
+				vm.images.splice(vm.index, 1);
+			}
+
 			if (vm.images.length === 0) {
 				return true;
 			}
 
-			let index = Math.floor(Math.random() * vm.images.length);
-			vm.image = vm.images[index];
+			vm.index = Math.floor(Math.random() * vm.images.length);
+			vm.image = vm.images[vm.index];
 			vm.overlayText = $filter('underscoreless')(vm.image.public_id);
-			vm.images.splice(index, 1);
 		}
 
 		function getImages() {

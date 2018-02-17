@@ -57,11 +57,22 @@ img {
 	text-align: center;
 }
 
-.overlay-text {
+.overlay-text-wrapper p {
 	color: white;
 	font-weight: bold;
-	font-size: 40px;
+	font-size: 35px;
 	font-family: 'Varela Round', sans-serif;
+}
+
+.overlay-text {
+	max-height: 60vh;
+	overflow: auto;
+}
+
+.got-it-right p {
+	margin-top: 50px;
+	font-weight: normal;
+	font-size: 24px;
 }
 
 [ng-click] {

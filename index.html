@@ -79,12 +79,23 @@
 		</cl-image>
 	</div>
 
-	<div ng-if="vm.showOverlay" ng-click="vm.overlayClick()">
+	<div ng-if="vm.showOverlay">
 		<div class="overlay"></div>
 		<div class="overlay-text-wrapper">
-			<p class="overlay-text">{{vm.overlayText}}</p>
-			<button class="btn btn-lg btn-outline-light" ng-if="vm.gameOver" ng-click="vm.startOverClick()">Start over
-			</button>
+			<p class="overlay-text" ng-if="!vm.gameOver">{{vm.overlayText}}</p>
+
+			<div class="got-it-right" ng-if="!vm.gameOver">
+				<p>Did you get it right?</p>
+				<button class="btn btn-lg btn-outline-success" ng-click="vm.nextQuestion(true)">Yes</button>
+				<button class="btn btn-lg btn-outline-danger" ng-click="vm.nextQuestion(false)">No</button>
+			</div>
+
+			<div ng-if="vm.gameOver">
+				<p>All done!</p>
+				<button class="btn btn-lg btn-outline-light" ng-click="vm.startOverClick()">
+					Start over
+				</button>
+			</div>
 		</div>
 	</div>
 	<footer>
