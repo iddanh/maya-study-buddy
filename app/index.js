@@ -1,11 +1,39 @@
 (function () {
 	'use strict';
 
-	const app = angular.module('app', ['cloudinary']);
+	const app = angular.module('app', ['cloudinary', 'ui.router']);
 
-	app.config(function (cloudinaryProvider) {
+	app.config(function (cloudinaryProvider, $locationProvider, $stateProvider) {
 		cloudinaryProvider
 			.set("cloud_name", "hdzc7seee");
+
+		$locationProvider.html5Mode(true);
+
+		$stateProvider.state('default', {
+			url: '/{roomName}',
+			templateUrl: '/templates/default.html',
+			controller: 'mainController',
+			controllerAs: 'vm',
+			resolve: {
+				room: function ($transition$) {
+					const database = firebase.database();
+					return database.ref('/rooms/').once('value').then((snapshot) => {
+						const rooms = snapshot.val();
+						const roomName = $transition$.params().roomName;
+						if (!roomName) {
+							return rooms[0];
+						}
+						return rooms.filter(room => room.name === roomName)[0] || rooms[0];
+
+					});
+				}
+			}
+		}).state('admin', {
+			url: '/mayacool',
+			templateUrl: '/templates/admin.html',
+			controller: 'adminController',
+			controllerAs: 'vm'
+		})
 	});
 
 	app.filter('underscoreless', function () {
@@ -17,12 +45,80 @@
 		}
 	});
 
-	app.controller('mainController', function ($http, $filter) {
+	app.controller('rootController', function ($location, $scope) {
+		const vm = this;
+		vm.$onInit = () => {
+			firebase.database().ref('/rooms/').once('value').then((snapshot) => {
+				$scope.$apply(() => {
+					vm.rooms = snapshot.val();
+					vm.selectedRoom = vm.rooms[0].name;
+				});
+			});
+
+			vm.selected = selected;
+		};
+
+		function selected() {
+			$location.url(`/${vm.selectedRoom}`);
+		}
+	});
+
+	app.controller('adminController', function ($scope, $state) {
+		const vm = this;
+		let rooms;
+
+		vm.$onInit = () => {
+			firebase.database().ref('/rooms/').once('value').then((snapshot) => {
+				$scope.$apply(() => {
+					vm.rooms = snapshot.val();
+					vm.selectedRoom = vm.rooms[vm.rooms.length - 1].name;
+					rooms = angular.copy(snapshot.val());
+				});
+			});
+
+			vm.uploadImages = uploadImages;
+			vm.add = add;
+		};
+
+		function uploadImages() {
+			cloudinary.openUploadWidget({
+					cloud_name: 'hdzc7seee',
+					upload_preset: 'tkru709v',
+					multiple: false
+				},
+				(error, result) => {
+					$scope.$apply(() => vm.image = result[0]);
+				}
+			);
+		}
+
+		function add() {
+			const newImage = {
+				public_id: vm.image ? vm.image.public_id : '',
+				desc: vm.desc || '' ,
+				question: vm.question || ''
+			};
+
+			const roomsRef = firebase.database().ref('/rooms/');
+			const currentRoom = rooms.filter(room => room.name === vm.selectedRoom)[0];
+			if (!currentRoom.images) {
+				currentRoom.images = [];
+			}
+			currentRoom.images.push(newImage);
+
+			roomsRef.set(rooms);
+
+			$state.reload();
+		}
+	});
+
+	app.controller('mainController', function ($http, $filter, $location, room) {
 
 		const vm = this;
 
 		vm.$onInit = () => {
-			vm.uploadImages = uploadImages;
+			console.log(room);
+
 			vm.imageClick = imageClick;
 			vm.nextQuestion = nextQuestion;
 			vm.startOverClick = startOverClick;
@@ -31,19 +127,11 @@
 			vm.gameOver = false;
 			vm.index = 0;
 
-			getImages();
-		};
+			// getImages();
 
-		function uploadImages() {
-			cloudinary.openUploadWidget({
-					cloud_name: 'hdzc7seee',
-					upload_preset: 'tkru709v'
-				},
-				(error, result) => {
-					location.reload();
-				}
-			);
-		}
+			vm.room = room;
+			nextImage();
+		};
 
 		function imageClick() {
 			vm.showOverlay = true;
@@ -68,16 +156,15 @@
 
 		function nextImage(removeLast) {
 			if (removeLast) {
-				vm.images.splice(vm.index, 1);
+				vm.room.images.splice(vm.index, 1);
 			}
 
-			if (vm.images.length === 0) {
+			if (vm.room.images.length === 0) {
 				return true;
 			}
 
-			vm.index = Math.floor(Math.random() * vm.images.length);
-			vm.image = vm.images[vm.index];
-			vm.overlayText = $filter('underscoreless')(vm.image.public_id);
+			vm.index = Math.floor(Math.random() * vm.room.images.length);
+			vm.image = vm.room.images[vm.index];
 		}
 
 		function getImages() {

@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Maya Study Buddy</title>
+	<base href="/">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -57,56 +58,41 @@
 		})(window, document, window['_fs_namespace'], 'script', 'user');
 	</script>
 </head>
-<body ng-controller="mainController as vm">
-<div class="wrapper">
+<body>
+
+<div class="wrapper" ng-controller="rootController as vm">
 	<nav class="navbar navbar-dark bg-dark">
 		<a class="navbar-brand" href="#">MAYA STUDY BUDDY</a>
-		<button class="btn btn-outline-primary upload-btn" ng-click="vm.uploadImages()">Upload more!</button>
+		<select ng-model="vm.selectedRoom" ng-change="vm.selected()">
+			<option ng-repeat="room in vm.rooms" value="{{room.name}}">{{room.desc}}</option>
+		</select>
 	</nav>
 
-	<p class="remaining">Remaining: <b>{{vm.images.length}}</b></p>
+	<ui-view></ui-view>
 
-	<div class="image-wrapper" ng-click="vm.imageClick()">
-		<cl-image public-id="{{vm.image.public_id}}">
-			<cl-transformation
-					dpr="auto"
-					responsive
-					width="auto"
-					fetch_format="auto"
-					crop="scale"
-					quality="auto">
-			</cl-transformation>
-		</cl-image>
-	</div>
-
-	<div ng-if="vm.showOverlay">
-		<div class="overlay"></div>
-		<div class="overlay-text-wrapper">
-			<p class="overlay-text" ng-if="!vm.gameOver">{{vm.overlayText}}</p>
-
-			<div class="got-it-right" ng-if="!vm.gameOver">
-				<p>Did you get it right?</p>
-				<button class="btn btn-lg btn-outline-success" ng-click="vm.nextQuestion(true)">Yes</button>
-				<button class="btn btn-lg btn-outline-danger" ng-click="vm.nextQuestion(false)">No</button>
-			</div>
-
-			<div ng-if="vm.gameOver">
-				<p>All done!</p>
-				<button class="btn btn-lg btn-outline-light" ng-click="vm.startOverClick()">
-					Start over
-				</button>
-			</div>
-		</div>
-	</div>
 	<footer>
 		Mayacool &copy; 2018
 	</footer>
 </div>
-</body>
 
+<script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+<script>
+	// Initialize Firebase
+	var config = {
+		apiKey: "AIzaSyCA9A-qsNSe2gBAAwjXnWT6a1sjZp3gNPw",
+		authDomain: "maya-study-buddy.firebaseapp.com",
+		databaseURL: "https://maya-study-buddy.firebaseio.com",
+		projectId: "maya-study-buddy",
+		storageBucket: "maya-study-buddy.appspot.com",
+		messagingSenderId: "1064770265069"
+	};
+	firebase.initializeApp(config);
+</script>
 <script src="//widget.cloudinary.com/global/all.js" type="text/javascript"></script>
 <script src="/scripts/angular/angular.min.js" type="text/javascript"></script>
+<script src="/scripts/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
 <script src="/scripts/cloudinary-core/cloudinary-core-shrinkwrap.js"></script>
 <script src="/scripts/cloudinary_ng/js/angular.cloudinary.js"></script>
 <script src="/index.js" type="text/javascript"></script>
+</body>
 </html>
