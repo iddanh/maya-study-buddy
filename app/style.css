@@ -17,6 +17,10 @@ body {
 	height: 100%;
 }
 
+h3 {
+	text-align: center;
+}
+
 .image-wrapper {
 	position: absolute;
 	transform: translate(-50%, -50%);
