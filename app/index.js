@@ -45,12 +45,14 @@
 		}
 	});
 
-	app.controller('rootController', function ($location) {
+	app.controller('rootController', function ($location, $scope) {
 		const vm = this;
 		vm.$onInit = () => {
 			firebase.database().ref('/rooms/').once('value').then((snapshot) => {
-				vm.rooms = snapshot.val();
-				vm.selectedRoom = vm.rooms[0].name;
+				$scope.$apply(() => {
+					vm.rooms = snapshot.val();
+					vm.selectedRoom = vm.rooms[0].name;
+				});
 			});
 
 			vm.selected = selected;
@@ -61,12 +63,53 @@
 		}
 	});
 
-	app.controller('adminController', function () {
+	app.controller('adminController', function ($scope, $state) {
 		const vm = this;
+		let rooms;
 
 		vm.$onInit = () => {
-			vm.hello = 'world';
+			firebase.database().ref('/rooms/').once('value').then((snapshot) => {
+				$scope.$apply(() => {
+					vm.rooms = snapshot.val();
+					vm.selectedRoom = vm.rooms[vm.rooms.length - 1].name;
+					rooms = angular.copy(snapshot.val());
+				});
+			});
+
+			vm.uploadImages = uploadImages;
+			vm.add = add;
 		};
+
+		function uploadImages() {
+			cloudinary.openUploadWidget({
+					cloud_name: 'hdzc7seee',
+					upload_preset: 'tkru709v',
+					multiple: false
+				},
+				(error, result) => {
+					$scope.$apply(() => vm.image = result[0]);
+				}
+			);
+		}
+
+		function add() {
+			const newImage = {
+				public_id: vm.image ? vm.image.public_id : '',
+				desc: vm.desc || '' ,
+				question: vm.question || ''
+			};
+
+			const roomsRef = firebase.database().ref('/rooms/');
+			const currentRoom = rooms.filter(room => room.name === vm.selectedRoom)[0];
+			if (!currentRoom.images) {
+				currentRoom.images = [];
+			}
+			currentRoom.images.push(newImage);
+
+			roomsRef.set(rooms);
+
+			$state.reload();
+		}
 	});
 
 	app.controller('mainController', function ($http, $filter, $location, room) {
@@ -76,7 +119,6 @@
 		vm.$onInit = () => {
 			console.log(room);
 
-			vm.uploadImages = uploadImages;
 			vm.imageClick = imageClick;
 			vm.nextQuestion = nextQuestion;
 			vm.startOverClick = startOverClick;
@@ -90,17 +132,6 @@
 			vm.room = room;
 			nextImage();
 		};
-
-		function uploadImages() {
-			cloudinary.openUploadWidget({
-					cloud_name: 'hdzc7seee',
-					upload_preset: 'tkru709v'
-				},
-				(error, result) => {
-					location.reload();
-				}
-			);
-		}
 
 		function imageClick() {
 			vm.showOverlay = true;

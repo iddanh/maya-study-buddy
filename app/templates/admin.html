@@ -1,3 +1,29 @@
-<h3>Management</h3>
+<h3>Add question</h3>
 
-{{vm.hello}}
+<div class="form-group">
+	<label>Room:</label>
+	<select class="form-control" ng-model="vm.selectedRoom">
+		<option ng-repeat="room in vm.rooms" value="{{room.name}}">{{room.desc}}</option>
+	</select>
+</div>
+
+<button class="btn btn-default upload-btn" ng-click="vm.uploadImages()">Select image</button>
+<span>Selected image: {{vm.image.public_id}}</span>
+<br/>
+<br/>
+
+<div class="form-group">
+	<label>
+		Question:
+	</label>
+	<input class="form-control" ng-model="vm.question">
+</div>
+
+<div class="form-group">
+	<label>
+		Description:
+	</label>
+	<input class="form-control" ng-model="vm.desc">
+</div>
+
+<button class="btn btn-primary btn-block" ng-click="vm.add()">Add!</button>
