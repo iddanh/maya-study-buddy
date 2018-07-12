@@ -60,10 +60,17 @@
 </head>
 <body>
 
-<div class="wrapper" ng-controller="rootController as vm">
+<div class="wrapper" ng-class="{'greyscale': vm.greyscale}" ng-controller="rootController as vm">
 	<nav class="navbar navbar-dark bg-dark">
-		<a class="navbar-brand" href="#">MAYA STUDY BUDDY</a>
-		<select ng-model="vm.selectedRoom" ng-change="vm.selected()">
+		<a class="navbar-brand" href="/">MAYA STUDY BUDDY</a>
+		<div class="form-check">
+			<input class="form-check-input" type="checkbox" ng-model="vm.greyscale" id="greyscale">
+			<label class="form-check-label" for="greyscale">
+				Black & White
+			</label>
+		</div>
+
+		<select class="form-control" style="width:auto" ng-model="vm.selectedRoom" ng-change="vm.selected()">
 			<option ng-repeat="room in vm.rooms" value="{{room.name}}">{{room.desc}}</option>
 		</select>
 	</nav>

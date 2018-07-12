@@ -3,7 +3,8 @@
 <p class="remaining">Remaining: <b>{{vm.room.images.length}}</b></p>
 
 <div class="image-wrapper" ng-click="vm.imageClick()">
-	<cl-image public-id="{{vm.image.public_id}}">
+	<h2 class="question">{{vm.image.question}}</h2>
+	<cl-image public-id="{{vm.image.public_id}}" ng-if="vm.image.public_id">
 		<cl-transformation
 				dpr="auto"
 				responsive

@@ -10,7 +10,7 @@
 		$locationProvider.html5Mode(true);
 
 		$stateProvider.state('default', {
-			url: '/{roomName}',
+			url: '/:roomName',
 			templateUrl: '/templates/default.html',
 			controller: 'mainController',
 			controllerAs: 'vm',
@@ -51,9 +51,13 @@
 			firebase.database().ref('/rooms/').once('value').then((snapshot) => {
 				$scope.$apply(() => {
 					vm.rooms = snapshot.val();
-					vm.selectedRoom = vm.rooms[0].name;
+
+					const roomName = $location.path().replace('/', '');
+					vm.selectedRoom = roomName || vm.rooms[0].name;
 				});
 			});
+
+			vm.greyscale = false;
 
 			vm.selected = selected;
 		};
@@ -84,7 +88,9 @@
 			cloudinary.openUploadWidget({
 					cloud_name: 'hdzc7seee',
 					upload_preset: 'tkru709v',
-					multiple: false
+					multiple: false,
+					sources: ['local', 'url', 'image_search'],
+					google_api_key: 'AIzaSyC7DbHoMV59Q5GDRN7y5IBRn8gGTQAQ6XA'
 				},
 				(error, result) => {
 					$scope.$apply(() => vm.image = result[0]);
@@ -95,7 +101,7 @@
 		function add() {
 			const newImage = {
 				public_id: vm.image ? vm.image.public_id : '',
-				desc: vm.desc || '' ,
+				desc: vm.desc || '',
 				question: vm.question || ''
 			};
 
@@ -117,8 +123,6 @@
 		const vm = this;
 
 		vm.$onInit = () => {
-			console.log(room);
-
 			vm.imageClick = imageClick;
 			vm.nextQuestion = nextQuestion;
 			vm.startOverClick = startOverClick;
@@ -129,7 +133,7 @@
 
 			// getImages();
 
-			vm.room = room;
+			vm.room = angular.copy(room);
 			nextImage();
 		};
 
@@ -151,7 +155,10 @@
 		function startOverClick() {
 			vm.gameOver = false;
 			vm.showOverlay = false;
-			getImages();
+
+			vm.room = angular.copy(room);
+			nextImage();
+			// getImages();
 		}
 
 		function nextImage(removeLast) {
