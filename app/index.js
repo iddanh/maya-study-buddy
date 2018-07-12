@@ -21,9 +21,9 @@
 						const rooms = snapshot.val();
 						const roomName = $transition$.params().roomName;
 						if (!roomName) {
-							return rooms[0];
+							return rooms[rooms.length - 1];
 						}
-						return rooms.filter(room => room.name === roomName)[0] || rooms[0];
+						return rooms.filter(room => room.name === roomName)[0] || rooms[rooms.length - 1];
 
 					});
 				}
@@ -53,7 +53,7 @@
 					vm.rooms = snapshot.val();
 
 					const roomName = $location.path().replace('/', '');
-					vm.selectedRoom = roomName || vm.rooms[0].name;
+					vm.selectedRoom = roomName || vm.rooms[vm.rooms.length - 1].name;
 				});
 			});
 
