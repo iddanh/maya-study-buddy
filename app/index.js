@@ -33,6 +33,11 @@
       templateUrl: '/templates/admin.html',
       controller: 'adminController',
       controllerAs: 'vm'
+    }).state('admin2', {
+      url: '/miriel',
+      templateUrl: '/templates/admin.html',
+      controller: 'adminController',
+      controllerAs: 'vm'
     })
   });
 
@@ -67,15 +72,20 @@
     }
   });
 
-  app.controller('adminController', function ($scope, $state) {
+  app.controller('adminController', function ($scope, $state, $location) {
     const vm = this;
     let rooms;
 
     vm.$onInit = () => {
       firebase.database().ref('/rooms/').once('value').then((snapshot) => {
         $scope.$apply(() => {
-          vm.rooms = snapshot.val();
-          vm.selectedRoom = vm.rooms[vm.rooms.length - 1].name;
+          if ($location.path() === '/miriel') {
+            vm.rooms = snapshot.val().filter(room => room.name === 'miriel');
+            vm.selectedRoom = vm.rooms[0].name;
+          } else {
+            vm.rooms = snapshot.val();
+            vm.selectedRoom = vm.rooms[vm.rooms.length - 1].name;
+          }
           rooms = angular.copy(snapshot.val());
         });
       });
